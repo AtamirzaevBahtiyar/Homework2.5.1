@@ -28,11 +28,11 @@ public class Uploader extends Thread{
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-
-            cdl.countDown();
         }
+
         System.out.println(" ");
         System.out.println("Загрузил файл на сервер");
+        cdl.countDown();
     }
 }
 

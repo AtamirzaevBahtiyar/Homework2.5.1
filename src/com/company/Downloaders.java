@@ -7,15 +7,17 @@ public class Downloaders extends Thread{
 
         private Semaphore sem;
         private int downloadSpeed;
+        int id;
         int file;
         CountDownLatch countDownLatch;
         String downloading = "";
 
 
-        public Downloaders (CountDownLatch countDownLatch, Semaphore sem, int downloadSpeed){
+        public Downloaders (CountDownLatch countDownLatch, Semaphore sem, int downloadSpeed,int id){
                 this.sem = sem;
                 this.downloadSpeed = downloadSpeed;
                 this.countDownLatch = countDownLatch;
+                this.id = id;
 
 
 
@@ -28,7 +30,7 @@ public class Downloaders extends Thread{
                 try {
                         countDownLatch.await();
                         sem.acquire();
-                        System.out.println("Пользователь скачивает файл");
+                        System.out.println("Пользователь " + id + " скачивает файл");
                         for (int i = 0; i <500/downloadSpeed ; i++) {
                                 file = file + downloadSpeed;
                                 System.out.print(downloading + "⬇");
@@ -40,7 +42,7 @@ public class Downloaders extends Thread{
                         e.printStackTrace();
                 }
                 System.out.println(" ");
-                System.out.println("Пользователь скачал файл");
+                System.out.println("Пользователь " + id + " скачал файл");
 
         }
 }
