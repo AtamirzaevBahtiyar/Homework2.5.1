@@ -10,23 +10,20 @@ public class Downloaders extends Thread{
         int id;
         int file;
         CountDownLatch countDownLatch;
+        CountDownLatch cdl;
         String downloading = "";
 
 
-        public Downloaders (CountDownLatch countDownLatch, Semaphore sem, int downloadSpeed,int id){
+        public Downloaders (CountDownLatch countDownLatch, Semaphore sem, int downloadSpeed,int id,CountDownLatch cdl){
                 this.sem = sem;
                 this.downloadSpeed = downloadSpeed;
                 this.countDownLatch = countDownLatch;
                 this.id = id;
-
-
-
+                this.cdl = cdl;
         }
 
 
         public void run (){
-
-
                 try {
                         countDownLatch.await();
                         sem.acquire();
@@ -36,13 +33,14 @@ public class Downloaders extends Thread{
                                 System.out.print(downloading + "⬇");
                                 sleep(2000);
                         }
+                        System.out.println(" ");
+                        System.out.println("Пользователь " + id + " скачал файл");
                         sem.release();
+                        cdl.countDown();
 
                 } catch (InterruptedException e) {
                         e.printStackTrace();
                 }
-                System.out.println(" ");
-                System.out.println("Пользователь " + id + " скачал файл");
 
         }
 }
